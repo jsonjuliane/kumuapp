@@ -1,0 +1,74 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion rootProject.ext.buildToolsVersions.compileSdk
+    buildToolsVersion rootProject.ext.buildTool
+    defaultConfig {
+        applicationId "wanda.weiss.kumuchallenge"
+        minSdkVersion rootProject.ext.buildToolsVersions.minSdk
+        targetSdkVersion rootProject.ext.buildToolsVersions.targetSdk
+        multiDexEnabled true
+        versionCode rootProject.ext.internalLibraryCode
+        versionName rootProject.ext.internalLibraryVersion
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    testImplementation 'junit:junit:4.12'
+
+    //Card View
+    implementation "androidx.cardview:cardview:${rootProject.ext.libraryVersions.cardview}"
+
+    //Constraint Layout
+    implementation "androidx.constraintlayout:constraintlayout:${rootProject.ext.libraryVersions.constraint}"
+
+    //Dagger
+    implementation "com.google.dagger:dagger:${rootProject.ext.libraryVersions.dagger}"
+    implementation "com.google.dagger:dagger-android-support:${rootProject.ext.libraryVersions.dagger}"
+    kapt "com.google.dagger:dagger-compiler:${rootProject.ext.libraryVersions.dagger}"
+    kapt "com.google.dagger:dagger-android-processor:${rootProject.ext.libraryVersions.dagger}"
+
+    //Recycler View
+    implementation "androidx.recyclerview:recyclerview:${rootProject.ext.libraryVersions.supportx}"
+
+    //Retrofit
+    implementation "com.squareup.retrofit2:converter-gson:${rootProject.ext.libraryVersions.retrofit}"
+    implementation "com.squareup.retrofit2:retrofit:${rootProject.ext.libraryVersions.retrofit}"
+
+    //RxJava
+    implementation "io.reactivex.rxjava2:rxandroid:${rootProject.ext.libraryVersions.rxandroid}"
+    implementation "io.reactivex.rxjava2:rxjava:${rootProject.ext.libraryVersions.rxjava}"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:${rootProject.ext.libraryVersions.retrofit}"
+    implementation "com.github.akarnokd:rxjava3-interop:3.0.2"
+
+    //Scale Density Pixel
+    implementation "com.intuit.sdp:sdp-android:${rootProject.ext.libraryVersions.sdp}"
+    implementation "com.intuit.ssp:ssp-android:${rootProject.ext.libraryVersions.ssp}"
+
+    //Support
+    implementation "androidx.appcompat:appcompat:${rootProject.ext.libraryVersions.appcompat}"
+
+    //Timber
+    implementation "com.jakewharton.timber:timber:${rootProject.ext.libraryVersions.timber}"
+
+    //View Model (Live Data)
+    implementation "androidx.lifecycle:lifecycle-extensions:${rootProject.ext.libraryVersions.viewmodel}"
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:${rootProject.ext.libraryVersions.viewmodel}"
+
+}
