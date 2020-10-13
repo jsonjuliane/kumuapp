@@ -12,8 +12,8 @@ class ItunesRepo(private val app: App) : BaseRepository() {
     private var itunesDisposable: Disposable? = null
     var itunesResult = MutableLiveData<ItunesWrapper>()
 
-    fun getItunes(): MutableLiveData<ItunesWrapper> {
-        itunesDisposable = app.apiService.getItunesList("star")
+    fun getItunes(term: String): MutableLiveData<ItunesWrapper> {
+        itunesDisposable = app.apiService.getItunesList(term)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({

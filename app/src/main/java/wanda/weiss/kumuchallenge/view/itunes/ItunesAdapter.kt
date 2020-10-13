@@ -3,6 +3,7 @@ package wanda.weiss.kumuchallenge.view.itunes
 import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import timber.log.Timber
 import wanda.weiss.kumuchallenge.R
 import wanda.weiss.kumuchallenge.databinding.ItemItunesBinding
 import wanda.weiss.kumuchallenge.model.pojo.Result
@@ -19,20 +20,18 @@ class ItunesAdapter(private var itunesList: ArrayList<Result>) :
     }
 
     override fun getItemId(position: Int): Long {
-        return position.toLong()
+        return System.currentTimeMillis()
     }
 
     override fun getItemViewType(position: Int): Int {
-        return position
+        return System.currentTimeMillis().toInt()
     }
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = itunesList[position]
-        binding.apply {
-            tvItunesTrackName.text = item.trackName
-            tvItunesTrackPrice.text = "PHP${item.trackPrice}"
-            tvItunesTrackGenre.text = item.primaryGenreName
-        }
+        binding.tvItunesTrackName.text = item.trackName
+        binding.tvItunesTrackPrice.text = "PHP${item.trackPrice}"
+        binding.tvItunesTrackGenre.text = item.primaryGenreName
     }
 }

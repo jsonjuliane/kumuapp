@@ -2,6 +2,13 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="vm"
+            type="wanda.weiss.kumuchallenge.viewmodel.ItunesVM" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -27,7 +34,9 @@
 
                 <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:onTextChanged="@{(text, start, before, count) -> vm.onTextChanged(text)}"
+                    tools:ignore="Autofill,LabelFor,TextFields" />
 
             </LinearLayout>
 
@@ -37,6 +46,7 @@
             android:id="@+id/rv_itunes_data"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:background="@color/colorBG"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tb_itunes" />
 

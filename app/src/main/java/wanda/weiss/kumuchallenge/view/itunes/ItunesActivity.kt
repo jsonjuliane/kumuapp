@@ -3,6 +3,7 @@ package wanda.weiss.kumuchallenge.view.itunes
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import timber.log.Timber
 import wanda.weiss.kumuchallenge.R
 import wanda.weiss.kumuchallenge.databinding.ActivityItunesBinding
 import wanda.weiss.kumuchallenge.model.pojo.ItunesWrapper
@@ -21,19 +22,19 @@ class ItunesActivity : BaseActivity<ActivityItunesBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bind(this, R.layout.activity_itunes)
+        binding.vm = vm
 
         initList()
         initObserver()
-        getData()
     }
 
     private fun initObserver() {
         itunesObserver = Observer {
             when {
                 it.result != null -> {
-                    for (item in it.result.results){
-                        itunesList.add(item)
-                        binding.rvItunesData.adapter?.notifyItemInserted(itunesList.size - 1)
+                    if(it.result.results.isNotEmpty()) {
+                        itunesList.addAll(it.result.results)
+                        binding.rvItunesData.adapter?.notifyDataSetChanged()
                     }
                 }
                 else -> {
@@ -42,6 +43,7 @@ class ItunesActivity : BaseActivity<ActivityItunesBinding>() {
             }
         }
         vm.itunesAvailable.observe(this, Observer {
+            clearList()
             vm.getItunes().observe(this, itunesObserver)
         })
     }
@@ -54,7 +56,8 @@ class ItunesActivity : BaseActivity<ActivityItunesBinding>() {
         }
     }
 
-    private fun getData() {
-        vm.getItunesList()
+    private fun clearList(){
+        itunesList.clear()
+        binding.rvItunesData.adapter?.notifyDataSetChanged()
     }
 }
