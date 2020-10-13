@@ -1,10 +1,13 @@
 package wanda.weiss.kumuchallenge.view.itunes
 
+import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import timber.log.Timber
+import com.sothree.slidinguppanel.SlidingUpPanelLayout
+import kotlinx.android.synthetic.main.sheet_itunes_detail.view.*
 import wanda.weiss.kumuchallenge.R
 import wanda.weiss.kumuchallenge.databinding.ActivityItunesBinding
 import wanda.weiss.kumuchallenge.model.observable.ItunesObservable
@@ -35,7 +38,42 @@ class ItunesActivity : BaseActivity<ActivityItunesBinding>() {
         initObserver()
     }
 
+    private fun initList() {
+        binding.rvItunesData.apply {
+            layoutManager =
+                LinearLayoutManager(this@ItunesActivity, LinearLayoutManager.VERTICAL, false)
+            binding.rvItunesData.adapter = ItunesAdapter(this@ItunesActivity, itunesList, vm)
+        }
+    }
+
     private fun initObserver() {
+        binding.supBottomSheet.setFadeOnClickListener {
+            binding.supBottomSheet.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+        }
+
+        binding.supBottomSheet.addPanelSlideListener(object :
+            SlidingUpPanelLayout.PanelSlideListener {
+            override fun onPanelSlide(panel: View?, slideOffset: Float) {}
+
+            override fun onPanelStateChanged(
+                panel: View?,
+                previousState: SlidingUpPanelLayout.PanelState?,
+                newState: SlidingUpPanelLayout.PanelState?
+            ) {
+                if (newState == SlidingUpPanelLayout.PanelState.COLLAPSED) {
+                    binding.supBottomSheet.iv_sheet_video_cover.visibility = View.VISIBLE
+                    binding.supBottomSheet.vv_sheet_preview.stopPlayback()
+                }
+            }
+
+        })
+
+        binding.supBottomSheet.vv_sheet_preview.setOnPreparedListener {
+            Handler().postDelayed({
+                binding.supBottomSheet.iv_sheet_video_cover.visibility = View.GONE
+            }, 250)
+        }
+
         itunesObserver = Observer {
             binding.ivItunesLoading.visibility = View.INVISIBLE
             when {
@@ -48,9 +86,6 @@ class ItunesActivity : BaseActivity<ActivityItunesBinding>() {
                         }
                         else -> ob.searchEmpty = true
                     }
-                }
-                else -> {
-
                 }
             }
         }
@@ -65,19 +100,34 @@ class ItunesActivity : BaseActivity<ActivityItunesBinding>() {
 
         vm.itemClicked.observe(this, Observer {
             hideSoftKeyboard(binding.rvItunesData)
+
+            binding.supBottomSheet.tv_sheet_track_name.text = it.trackName
+            binding.supBottomSheet.tv_sheet_track_description.text = it.longDescription
+            loadPreview(it.previewUrl)
+
+            Handler().postDelayed({
+                binding.supBottomSheet.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
+            }, 150)
         })
     }
 
-    private fun initList() {
-        binding.rvItunesData.apply {
-            layoutManager =
-                LinearLayoutManager(this@ItunesActivity, LinearLayoutManager.VERTICAL, false)
-            binding.rvItunesData.adapter = ItunesAdapter(this@ItunesActivity, itunesList, vm)
+    private fun clearList() {
+        itunesList.clear()
+        binding.rvItunesData.adapter?.notifyDataSetChanged()
+    }
+
+    private fun loadPreview(previewUrl: String) {
+        binding.supBottomSheet.vv_sheet_preview.apply {
+            setVideoURI(Uri.parse(previewUrl))
+            start()
         }
     }
 
-    private fun clearList(){
-        itunesList.clear()
-        binding.rvItunesData.adapter?.notifyDataSetChanged()
+    override fun onBackPressed() {
+        when {
+            binding.supBottomSheet.panelState == SlidingUpPanelLayout.PanelState.EXPANDED -> binding.supBottomSheet.panelState =
+                SlidingUpPanelLayout.PanelState.COLLAPSED
+            else -> super.onBackPressed()
+        }
     }
 }

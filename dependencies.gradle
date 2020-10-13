@@ -21,6 +21,7 @@ ext.libraryVersions = [
         rxandroid         : '2.1.1',
         rxjava            : '2.1.16',
         sdp               : '1.0.5',
+        spl               : '3.4.0',
         ssp               : '1.0.6',
         support           : '28.0.0',
         supportx          : '1.1.0',

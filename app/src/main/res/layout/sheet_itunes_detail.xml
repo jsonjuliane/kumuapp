@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_500sdp"
+        android:background="@color/colorText"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorTextDark">
+
+            <VideoView
+                android:id="@+id/vv_sheet_preview"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/_150sdp"
+                android:layout_gravity="center" />
+
+            <ImageView
+                android:id="@+id/iv_sheet_video_cover"
+                android:layout_width="match_parent"
+                android:padding="@dimen/_50sdp"
+                android:background="@color/colorTextDark"
+                android:layout_height="@dimen/_150sdp"
+                android:src="@drawable/ic_movie"
+                tools:ignore="ContentDescription" />
+
+        </FrameLayout>
+
+
+        <TextView
+            android:id="@+id/tv_sheet_track_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin"
+            android:fontFamily="sans-serif-light"
+            android:textColor="@color/colorTextDark"
+            android:textSize="@dimen/font_big" />
+
+        <TextView
+            android:id="@+id/tv_sheet_track_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin"
+            android:fontFamily="sans-serif-light"
+            android:textColor="@color/colorTextDark"
+            android:textSize="@dimen/font_default" />
+
+    </LinearLayout>
+</layout>

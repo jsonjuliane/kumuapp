@@ -8,4 +8,7 @@
     <color name="colorText">#FFFFFF</color>
     <color name="colorTextSub">#DDDDDD</color>
     <color name="colorTextSubAccent">#BBBBBB</color>
+
+    <color name="colorTextDark">#000000</color>
+    <color name="colorTextDarkSub">#222222</color>
 </resources>

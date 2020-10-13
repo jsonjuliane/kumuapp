@@ -81,6 +81,9 @@ dependencies {
     implementation "com.intuit.sdp:sdp-android:${rootProject.ext.libraryVersions.sdp}"
     implementation "com.intuit.ssp:ssp-android:${rootProject.ext.libraryVersions.ssp}"
 
+    //Sliding Panel
+    implementation "com.sothree.slidinguppanel:library:${rootProject.ext.libraryVersions.spl}"
+
     //Support
     implementation "androidx.appcompat:appcompat:${rootProject.ext.libraryVersions.appcompat}"
 
