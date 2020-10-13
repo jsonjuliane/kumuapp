@@ -4,7 +4,7 @@ data class Result(
     val artistId: Int,
     val artistName: String,
     val artistViewUrl: String,
-    val artworkUrl100: String,
+    val artworkUrl100: String?,
     val artworkUrl30: String,
     val artworkUrl60: String,
     val collectionArtistId: Int,

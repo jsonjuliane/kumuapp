@@ -10,19 +10,21 @@
 
         <ImageView
             android:id="@+id/iv_itunes_track_artwork"
-            android:layout_width="@dimen/_80sdp"
-            android:layout_height="@dimen/_80sdp"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_70sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription" />
-$
+
         <TextView
             android:id="@+id/tv_itunes_track_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/big_margin"
+            android:layout_marginStart="@dimen/default_margin"
             android:layout_marginTop="@dimen/default_margin"
+            android:ellipsize="end"
             android:fontFamily="sans-serif-light"
+            android:singleLine="true"
             android:textColor="@color/colorText"
             android:textSize="@dimen/font_big"
             app:layout_constraintStart_toEndOf="@id/iv_itunes_track_artwork"
@@ -32,7 +34,7 @@ $
             android:id="@+id/tv_itunes_track_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/big_margin"
+            android:layout_marginStart="@dimen/default_margin"
             android:fontFamily="sans-serif-light"
             android:textColor="@color/colorTextSub"
             android:textSize="@dimen/font_default"
@@ -43,7 +45,7 @@ $
             android:id="@+id/tv_itunes_track_genre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/big_margin"
+            android:layout_marginStart="@dimen/default_margin"
             android:fontFamily="sans-serif-light"
             android:textColor="@color/colorTextSubAccent"
             android:textSize="@dimen/font_default"

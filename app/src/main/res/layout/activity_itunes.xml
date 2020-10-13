@@ -5,6 +5,12 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="ob"
+            type="wanda.weiss.kumuchallenge.model.observable.ItunesObservable" />
+
         <variable
             name="vm"
             type="wanda.weiss.kumuchallenge.viewmodel.ItunesVM" />
@@ -13,12 +19,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true">
+        android:animateLayoutChanges="true"
+        android:background="@color/colorBG">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/tb_itunes"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
+            android:background="@color/colorText"
             app:layout_constraintTop_toTopOf="parent">
 
             <RelativeLayout
@@ -63,7 +71,7 @@
             android:id="@+id/rv_itunes_data"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@color/colorBG"
+            android:visibility="@{!ob.searchEmpty? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tb_itunes" />
 
@@ -71,11 +79,11 @@
             android:id="@+id/ll_itunes_empty"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@color/colorBG"
             android:clickable="true"
             android:focusable="true"
             android:gravity="center"
             android:orientation="vertical"
+            android:visibility="@{ob.searchEmpty? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tb_itunes">
 

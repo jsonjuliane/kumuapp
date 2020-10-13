@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.subjects.PublishSubject
 import wanda.weiss.kumuchallenge.App
+import wanda.weiss.kumuchallenge.model.observable.ItunesObservable
 import wanda.weiss.kumuchallenge.model.pojo.ItunesWrapper
 import wanda.weiss.kumuchallenge.model.repository.ItunesRepo
 
@@ -12,6 +13,8 @@ import wanda.weiss.kumuchallenge.model.repository.ItunesRepo
 class ItunesVM(app: App, private val itunesRepo: ItunesRepo) : BaseViewModel(app) {
 
     private lateinit var itunesResult: LiveData<ItunesWrapper>
+    private lateinit var observable: ItunesObservable
+
     private val autoCompletePublishSubject = PublishSubject.create<String>()
     var itunesAvailable = MutableLiveData<Boolean>()
     var searchEmpty = MutableLiveData<Boolean>()
@@ -19,6 +22,10 @@ class ItunesVM(app: App, private val itunesRepo: ItunesRepo) : BaseViewModel(app
     init {
         configureInterceptor(autoCompletePublishSubject, 400)
             .subscribe { result -> onTextFiltered(result) }
+    }
+
+    fun initObservable(observable: ItunesObservable) {
+        this.observable = observable
     }
 
     private fun getItunesList(term: String) {
@@ -31,12 +38,18 @@ class ItunesVM(app: App, private val itunesRepo: ItunesRepo) : BaseViewModel(app
     }
 
     fun onTextChanged(charSequence: CharSequence) {
+        if (charSequence.isEmpty()) dispose()
         searchEmpty.value = charSequence.isEmpty()
+        observable.searchEmpty = charSequence.isEmpty()
         autoCompletePublishSubject.onNext(charSequence.toString())
     }
 
     private fun onTextFiltered(result: String) {
         getItunesList(result)
+    }
+
+    private fun dispose() {
+        itunesRepo.dispose()
     }
 
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.Module
 import dagger.Provides
 import wanda.weiss.kumuchallenge.App
+import wanda.weiss.kumuchallenge.model.observable.ItunesObservable
 import wanda.weiss.kumuchallenge.model.repository.ItunesRepo
 import wanda.weiss.kumuchallenge.view.itunes.ItunesActivity
 import wanda.weiss.kumuchallenge.viewmodel.ItunesVM
@@ -18,14 +19,18 @@ class ItunesModule {
     }
 
     @Provides
+    fun provideObservable():ItunesObservable{
+        return ItunesObservable()
+    }
+
+    @Provides
     fun provideVM(itunesActivity: ItunesActivity, app: App, itunesRepo: ItunesRepo): ItunesVM {
         return ViewModelProvider(itunesActivity, ItunesVMFactory(app, itunesRepo)).get(ItunesVM::class.java)
     }
 
     inner class ItunesVMFactory(
         private val application: App,
-        private val itunesRepo: ItunesRepo
-    ) : ViewModelProvider.NewInstanceFactory() {
+        private val itunesRepo: ItunesRepo) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return ItunesVM(application, itunesRepo) as T
         }

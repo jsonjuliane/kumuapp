@@ -14,6 +14,7 @@ ext.libraryVersions = [
         dagger            : '2.16',
         gson              : '2.8.2',
         logginginterceptor: '3.9.1',
+        glide             : '4.9.0',
         merlin            : '1.2.1',
         okhttp            : '2.7.2',
         retrofit          : '2.4.0',

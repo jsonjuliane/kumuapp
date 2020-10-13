@@ -53,6 +53,10 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:${rootProject.ext.libraryVersions.dagger}"
     kapt "com.google.dagger:dagger-android-processor:${rootProject.ext.libraryVersions.dagger}"
 
+    //Glide
+    implementation "com.github.bumptech.glide:glide:${rootProject.ext.libraryVersions.glide}"
+    kapt "com.github.bumptech.glide:compiler:${rootProject.ext.libraryVersions.glide}"
+
     //Merlin
     implementation "com.novoda:merlin:${rootProject.ext.libraryVersions.merlin}"
 

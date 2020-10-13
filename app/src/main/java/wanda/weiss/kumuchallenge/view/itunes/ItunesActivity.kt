@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import timber.log.Timber
 import wanda.weiss.kumuchallenge.R
 import wanda.weiss.kumuchallenge.databinding.ActivityItunesBinding
+import wanda.weiss.kumuchallenge.model.observable.ItunesObservable
 import wanda.weiss.kumuchallenge.model.pojo.ItunesWrapper
 import wanda.weiss.kumuchallenge.model.pojo.Result
 import wanda.weiss.kumuchallenge.view.BaseActivity
@@ -20,10 +21,15 @@ class ItunesActivity : BaseActivity<ActivityItunesBinding>() {
     @Inject
     lateinit var vm: ItunesVM
 
+    @Inject
+    lateinit var ob: ItunesObservable
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bind(this, R.layout.activity_itunes)
         binding.vm = vm
+        binding.ob = ob
+        vm.initObservable(ob)
 
         initList()
         initObserver()
@@ -38,9 +44,9 @@ class ItunesActivity : BaseActivity<ActivityItunesBinding>() {
                         it.result.results.isNotEmpty() -> {
                             itunesList.addAll(it.result.results)
                             binding.rvItunesData.adapter?.notifyDataSetChanged()
-                            binding.llItunesEmpty.visibility = View.GONE
+                            ob.searchEmpty = false
                         }
-                        else -> binding.llItunesEmpty.visibility = View.VISIBLE
+                        else -> ob.searchEmpty = true
                     }
                 }
                 else -> {
@@ -55,10 +61,6 @@ class ItunesActivity : BaseActivity<ActivityItunesBinding>() {
 
         vm.searchEmpty.observe(this, Observer {
             clearList()
-            binding.llItunesEmpty.visibility = when {
-                it -> View.VISIBLE
-                else -> View.GONE
-            }
         })
 
     }
@@ -67,7 +69,7 @@ class ItunesActivity : BaseActivity<ActivityItunesBinding>() {
         binding.rvItunesData.apply {
             layoutManager =
                 LinearLayoutManager(this@ItunesActivity, LinearLayoutManager.VERTICAL, false)
-            binding.rvItunesData.adapter = ItunesAdapter(itunesList)
+            binding.rvItunesData.adapter = ItunesAdapter(this@ItunesActivity, itunesList)
         }
     }
 
