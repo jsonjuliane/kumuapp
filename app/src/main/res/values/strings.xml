@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">KumuChallenge</string>
+    <string name="label_search_empty">Search result empty.</string>
 </resources>

@@ -14,6 +14,7 @@ class ItunesVM(app: App, private val itunesRepo: ItunesRepo) : BaseViewModel(app
     private lateinit var itunesResult: LiveData<ItunesWrapper>
     private val autoCompletePublishSubject = PublishSubject.create<String>()
     var itunesAvailable = MutableLiveData<Boolean>()
+    var searchEmpty = MutableLiveData<Boolean>()
 
     init {
         configureInterceptor(autoCompletePublishSubject, 400)
@@ -30,6 +31,7 @@ class ItunesVM(app: App, private val itunesRepo: ItunesRepo) : BaseViewModel(app
     }
 
     fun onTextChanged(charSequence: CharSequence) {
+        searchEmpty.value = charSequence.isEmpty()
         autoCompletePublishSubject.onNext(charSequence.toString())
     }
 

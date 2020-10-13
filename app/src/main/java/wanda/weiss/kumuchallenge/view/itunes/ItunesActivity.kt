@@ -1,6 +1,7 @@
 package wanda.weiss.kumuchallenge.view.itunes
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import timber.log.Timber
@@ -30,11 +31,16 @@ class ItunesActivity : BaseActivity<ActivityItunesBinding>() {
 
     private fun initObserver() {
         itunesObserver = Observer {
+            binding.ivItunesLoading.visibility = View.INVISIBLE
             when {
                 it.result != null -> {
-                    if(it.result.results.isNotEmpty()) {
-                        itunesList.addAll(it.result.results)
-                        binding.rvItunesData.adapter?.notifyDataSetChanged()
+                    when {
+                        it.result.results.isNotEmpty() -> {
+                            itunesList.addAll(it.result.results)
+                            binding.rvItunesData.adapter?.notifyDataSetChanged()
+                            binding.llItunesEmpty.visibility = View.GONE
+                        }
+                        else -> binding.llItunesEmpty.visibility = View.VISIBLE
                     }
                 }
                 else -> {
@@ -43,9 +49,18 @@ class ItunesActivity : BaseActivity<ActivityItunesBinding>() {
             }
         }
         vm.itunesAvailable.observe(this, Observer {
-            clearList()
+            binding.ivItunesLoading.visibility = View.VISIBLE
             vm.getItunes().observe(this, itunesObserver)
         })
+
+        vm.searchEmpty.observe(this, Observer {
+            clearList()
+            binding.llItunesEmpty.visibility = when {
+                it -> View.VISIBLE
+                else -> View.GONE
+            }
+        })
+
     }
 
     private fun initList() {
