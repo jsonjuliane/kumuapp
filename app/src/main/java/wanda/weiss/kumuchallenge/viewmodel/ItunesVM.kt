@@ -1,12 +1,14 @@
 package wanda.weiss.kumuchallenge.viewmodel
 
 import android.annotation.SuppressLint
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.subjects.PublishSubject
 import wanda.weiss.kumuchallenge.App
 import wanda.weiss.kumuchallenge.model.observable.ItunesObservable
 import wanda.weiss.kumuchallenge.model.pojo.ItunesWrapper
+import wanda.weiss.kumuchallenge.model.pojo.Result
 import wanda.weiss.kumuchallenge.model.repository.ItunesRepo
 
 @SuppressLint("CheckResult")
@@ -18,6 +20,7 @@ class ItunesVM(app: App, private val itunesRepo: ItunesRepo) : BaseViewModel(app
     private val autoCompletePublishSubject = PublishSubject.create<String>()
     var itunesAvailable = MutableLiveData<Boolean>()
     var searchEmpty = MutableLiveData<Boolean>()
+    var itemClicked = MutableLiveData<Result>()
 
     init {
         configureInterceptor(autoCompletePublishSubject, 400)
@@ -46,6 +49,11 @@ class ItunesVM(app: App, private val itunesRepo: ItunesRepo) : BaseViewModel(app
 
     private fun onTextFiltered(result: String) {
         getItunesList(result)
+    }
+
+    fun onItemClicked(v: View) {
+        val item = (v.tag as Result)
+        itemClicked.value = item
     }
 
     private fun dispose() {

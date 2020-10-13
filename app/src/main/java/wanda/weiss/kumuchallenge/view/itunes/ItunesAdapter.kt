@@ -14,11 +14,18 @@ import wanda.weiss.kumuchallenge.databinding.ItemItunesBinding
 import wanda.weiss.kumuchallenge.di.module.GlideApp
 import wanda.weiss.kumuchallenge.model.pojo.Result
 import wanda.weiss.kumuchallenge.view.BaseRecyclerAdapter
+import wanda.weiss.kumuchallenge.viewmodel.ItunesVM
 
-class ItunesAdapter(private var context: Context, private var itunesList: ArrayList<Result>) :
+class ItunesAdapter(
+    private val context: Context,
+    private val itunesList: ArrayList<Result>,
+    private val vm: ItunesVM
+) :
     BaseRecyclerAdapter<ItemItunesBinding>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return bind(parent, R.layout.item_itunes)
+        val viewHolder = bind(parent, R.layout.item_itunes)
+        binding.vm = vm
+        return viewHolder
     }
 
     override fun getItemCount(): Int {
@@ -36,6 +43,7 @@ class ItunesAdapter(private var context: Context, private var itunesList: ArrayL
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = itunesList[position]
+        binding.clItunesContainer.tag = item
         binding.tvItunesTrackName.text = item.trackName
         binding.tvItunesTrackPrice.text = "PHP${item.trackPrice}"
         binding.tvItunesTrackGenre.text = item.primaryGenreName

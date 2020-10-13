@@ -2,10 +2,19 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="vm"
+            type="wanda.weiss.kumuchallenge.viewmodel.ItunesVM" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/cl_itunes_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorBG"
+        android:onClick="@{(v) -> vm.onItemClicked(v)}"
         android:orientation="vertical">
 
         <ImageView

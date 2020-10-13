@@ -63,13 +63,16 @@ class ItunesActivity : BaseActivity<ActivityItunesBinding>() {
             clearList()
         })
 
+        vm.itemClicked.observe(this, Observer {
+            hideSoftKeyboard(binding.rvItunesData)
+        })
     }
 
     private fun initList() {
         binding.rvItunesData.apply {
             layoutManager =
                 LinearLayoutManager(this@ItunesActivity, LinearLayoutManager.VERTICAL, false)
-            binding.rvItunesData.adapter = ItunesAdapter(this@ItunesActivity, itunesList)
+            binding.rvItunesData.adapter = ItunesAdapter(this@ItunesActivity, itunesList, vm)
         }
     }
 
