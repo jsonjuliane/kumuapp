@@ -7,6 +7,10 @@ import dagger.android.support.AndroidSupportInjectionModule
 import wanda.weiss.kumuchallenge.App
 import wanda.weiss.kumuchallenge.di.module.app.*
 
+/*  Component for all modules included for the project + android injector for
+    injecting other classes like work manager, etc.
+ */
+
 @AppScope
 @Component(
     modules = [
@@ -14,7 +18,6 @@ import wanda.weiss.kumuchallenge.di.module.app.*
         AndroidInjectionModule::class,
         AndroidSupportInjectionModule::class,
         ApiServiceModule::class,
-        AppModule::class,
         ConnectivityModule::class,
         DataModule::class,
         LogModule::class,

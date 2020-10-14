@@ -8,7 +8,7 @@ import dagger.Provides
 
 @Module
 class ConnectivityModule {
-
+    //Injection for future connectivity implementation
     @Provides
     fun getMerlin(context: Context): Merlin {
         return Merlin.Builder().withAllCallbacks().build(context)

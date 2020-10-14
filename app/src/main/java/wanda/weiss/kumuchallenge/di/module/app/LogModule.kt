@@ -7,8 +7,9 @@ import timber.log.Timber
 import wanda.weiss.kumuchallenge.BuildConfig
 import wanda.weiss.kumuchallenge.di.AppScope
 
-@Module(includes = [AppModule::class])
+@Module
 class LogModule {
+    //Providing Timber and HTTPLoggingInterceptor for debugging purposes
     @AppScope
     @Provides
     fun provideLogTree(): Timber.Tree {

@@ -71,6 +71,10 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:${rootProject.ext.libraryVersions.retrofit}"
     implementation "com.squareup.retrofit2:retrofit:${rootProject.ext.libraryVersions.retrofit}"
 
+    //Room
+    implementation "android.arch.persistence.room:runtime:${rootProject.ext.libraryVersions.room}"
+    kapt "android.arch.persistence.room:compiler:${rootProject.ext.libraryVersions.room}"
+
     //RxJava
     implementation "io.reactivex.rxjava2:rxandroid:${rootProject.ext.libraryVersions.rxandroid}"
     implementation "io.reactivex.rxjava2:rxjava:${rootProject.ext.libraryVersions.rxjava}"

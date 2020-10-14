@@ -6,8 +6,9 @@ import wanda.weiss.kumuchallenge.BR
 
 class ItunesObservable: BaseObservable(){
 
+    //For handling observable fields to update UI and variables
     @get:Bindable
-    var searchEmpty: Boolean = true
+    var searchEmpty: Boolean = false
         set(searchEmpty) {
             field = searchEmpty
             notifyPropertyChanged(BR.searchEmpty)

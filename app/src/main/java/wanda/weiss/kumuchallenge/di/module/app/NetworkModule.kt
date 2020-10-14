@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit
 @Module(includes = [LogModule::class, AppModule::class])
 class NetworkModule {
 
+    //Providing interceptor instance for handling headers, if there's any
     @SuppressLint("HardwareIds")
     @Provides
     @AppScope
@@ -30,6 +31,10 @@ class NetworkModule {
             chain.proceed(builder.build())
         }
     }
+
+
+    //Setting cache and providing instances
+
 
     @Provides
     @AppScope
@@ -43,7 +48,7 @@ class NetworkModule {
         return Cache(cacheFile, (10 * 1000 * 1000).toLong()) //10 MB Cache
     }
 
-
+    //Providing instance of authenticator for intercepting http error returns
     @Provides
     @AppScope
     fun getAuthenticator(app: App): Authenticator {
@@ -59,6 +64,7 @@ class NetworkModule {
         }
     }
 
+    //Building OKHttp instance to be used on networking calls
     @Provides
     @AppScope
     fun getOkHttpClientBuilder(

@@ -48,6 +48,7 @@ class ItunesAdapter(
         binding.tvItunesTrackPrice.text = "PHP${item.trackPrice}"
         binding.tvItunesTrackGenre.text = item.primaryGenreName
 
+        //Loader is for setting image handler when image loading failed, else show image
         when {
             item.artworkUrl100 != null && item.artworkUrl100.isNotEmpty() -> GlideApp.with(context.applicationContext)
                 .load(item.artworkUrl100)

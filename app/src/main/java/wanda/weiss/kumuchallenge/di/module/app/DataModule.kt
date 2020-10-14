@@ -10,6 +10,7 @@ import java.util.*
 
 @Module
 class DataModule {
+    //Providing Gson instance for data class handling
     val gson: Gson
         @Provides
         @AppScope
@@ -17,6 +18,7 @@ class DataModule {
                 .setPrettyPrinting()
                 .create()
 
+    //Prepped date format instance for future date format handling
     val dateFormat: SimpleDateFormat
         @Provides
         @AppScope

@@ -13,6 +13,7 @@ import com.bumptech.glide.load.engine.cache.MemorySizeCalculator
 
 @GlideModule
 class AppGlideModule : AppGlideModule() {
+    //Providing instance of Glide options and directly applying it as general context
     override fun applyOptions(context: Context, builder: GlideBuilder) {
         builder.setDefaultRequestOptions(RequestOptions()
                 .format(DecodeFormat.PREFER_RGB_565)

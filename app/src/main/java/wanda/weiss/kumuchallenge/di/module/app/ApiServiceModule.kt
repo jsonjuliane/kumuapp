@@ -14,15 +14,17 @@ import wanda.weiss.kumuchallenge.model.network.ApiService
 @Module(includes = [(NetworkModule::class), (DataModule::class)])
 class ApiServiceModule {
 
+    //Providing api service class
     @Provides
     @AppScope
     fun getApiService(retrofit: Retrofit): ApiService {
         return retrofit.create(ApiService::class.java)
     }
 
+    //Providing retrofit instance
     @Provides
     @AppScope
-    fun getLalaRetrofit(
+    fun getRetrofit(
         okHttpClient: OkHttpClient,
         gson: Gson,
         apiConfiguration: ApiConfiguration

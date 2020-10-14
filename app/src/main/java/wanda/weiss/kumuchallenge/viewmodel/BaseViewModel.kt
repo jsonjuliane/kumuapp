@@ -9,6 +9,8 @@ import wanda.weiss.kumuchallenge.App
 import java.util.concurrent.TimeUnit
 
 open class BaseViewModel(app: App) : AndroidViewModel(app) {
+
+    //Debounce, empty and distinction setup, to avoid calling api on every single character input
     fun configureInterceptor(
         autoCompletePublishSubject: PublishSubject<String>,
         timeout: Long

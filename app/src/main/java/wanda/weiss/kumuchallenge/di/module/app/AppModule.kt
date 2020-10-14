@@ -9,6 +9,7 @@ import wanda.weiss.kumuchallenge.di.AppScope
 
 @Module
 class AppModule {
+    //Prepped injection for future handling of session expired / authenticator
     @Provides
     @AppScope
     fun provideContext(app: App) : Context {

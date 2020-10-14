@@ -4,12 +4,14 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import kotlinx.android.synthetic.main.sheet_itunes_detail.view.*
 import wanda.weiss.kumuchallenge.R
 import wanda.weiss.kumuchallenge.databinding.ActivityItunesBinding
+import wanda.weiss.kumuchallenge.model.db.AppDatabase
 import wanda.weiss.kumuchallenge.model.observable.ItunesObservable
 import wanda.weiss.kumuchallenge.model.pojo.ItunesWrapper
 import wanda.weiss.kumuchallenge.model.pojo.Result
@@ -27,6 +29,9 @@ class ItunesActivity : BaseActivity<ActivityItunesBinding>() {
     @Inject
     lateinit var ob: ItunesObservable
 
+    @Inject
+    lateinit var db: AppDatabase
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bind(this, R.layout.activity_itunes)
@@ -40,17 +45,18 @@ class ItunesActivity : BaseActivity<ActivityItunesBinding>() {
 
     private fun initList() {
         binding.rvItunesData.apply {
-            layoutManager =
-                LinearLayoutManager(this@ItunesActivity, LinearLayoutManager.VERTICAL, false)
+            layoutManager = LinearLayoutManager(this@ItunesActivity, LinearLayoutManager.VERTICAL, false)
             binding.rvItunesData.adapter = ItunesAdapter(this@ItunesActivity, itunesList, vm)
         }
     }
 
     private fun initObserver() {
+        //Listener for clicking outside the sheet panel
         binding.supBottomSheet.setFadeOnClickListener {
             binding.supBottomSheet.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
         }
 
+        //Listener for panel (when collapsed) to restart video playback
         binding.supBottomSheet.addPanelSlideListener(object :
             SlidingUpPanelLayout.PanelSlideListener {
             override fun onPanelSlide(panel: View?, slideOffset: Float) {}
@@ -68,12 +74,14 @@ class ItunesActivity : BaseActivity<ActivityItunesBinding>() {
 
         })
 
+        //Play the video when video view is done preparing, 250ms delay to avoid seeing previously played video
         binding.supBottomSheet.vv_sheet_preview.setOnPreparedListener {
             Handler().postDelayed({
                 binding.supBottomSheet.iv_sheet_video_cover.visibility = View.GONE
             }, 250)
         }
 
+        //Observer for result of api call, notify list and update view
         itunesObserver = Observer {
             binding.ivItunesLoading.visibility = View.INVISIBLE
             when {
@@ -89,15 +97,20 @@ class ItunesActivity : BaseActivity<ActivityItunesBinding>() {
                 }
             }
         }
+
+        //Observer for when api result is available to be observed
         vm.itunesAvailable.observe(this, Observer {
             binding.ivItunesLoading.visibility = View.VISIBLE
             vm.getItunes().observe(this, itunesObserver)
         })
 
+        //Checker for when search edit test is empty to clear the list
         vm.searchEmpty.observe(this, Observer {
             clearList()
         })
 
+
+        //Item click listener to show panel and display detailed view
         vm.itemClicked.observe(this, Observer {
             hideSoftKeyboard(binding.rvItunesData)
 
@@ -109,6 +122,13 @@ class ItunesActivity : BaseActivity<ActivityItunesBinding>() {
                 binding.supBottomSheet.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
             }, 150)
         })
+
+        //Check the database if list of items exists, then display it on app start
+        db.tracksDao().tracks.observe(this, Observer {
+            ob.searchEmpty = it.isEmpty()
+            itunesList.addAll(it)
+            binding.rvItunesData.adapter?.notifyDataSetChanged()
+        })
     }
 
     private fun clearList() {
@@ -116,6 +136,7 @@ class ItunesActivity : BaseActivity<ActivityItunesBinding>() {
         binding.rvItunesData.adapter?.notifyDataSetChanged()
     }
 
+    //Load video from preview url given by the api, then auto play it
     private fun loadPreview(previewUrl: String) {
         binding.supBottomSheet.vv_sheet_preview.apply {
             setVideoURI(Uri.parse(previewUrl))
@@ -123,6 +144,7 @@ class ItunesActivity : BaseActivity<ActivityItunesBinding>() {
         }
     }
 
+    //Check if panel is showing, then collapse it first
     override fun onBackPressed() {
         when {
             binding.supBottomSheet.panelState == SlidingUpPanelLayout.PanelState.EXPANDED -> binding.supBottomSheet.panelState =

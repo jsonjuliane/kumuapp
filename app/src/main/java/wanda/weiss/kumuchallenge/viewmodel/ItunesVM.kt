@@ -11,8 +11,13 @@ import wanda.weiss.kumuchallenge.model.pojo.ItunesWrapper
 import wanda.weiss.kumuchallenge.model.pojo.Result
 import wanda.weiss.kumuchallenge.model.repository.ItunesRepo
 
+
+
 @SuppressLint("CheckResult")
-class ItunesVM(app: App, private val itunesRepo: ItunesRepo) : BaseViewModel(app) {
+class ItunesVM(
+    app: App,
+    private val itunesRepo: ItunesRepo
+) : BaseViewModel(app) {
 
     private lateinit var itunesResult: LiveData<ItunesWrapper>
     private lateinit var observable: ItunesObservable
